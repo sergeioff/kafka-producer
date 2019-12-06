@@ -5,12 +5,14 @@ plugins {
 group 'com.pogorelovs'
 version '1.0-SNAPSHOT'
 
+apply plugin: 'kotlin'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: '2.3.1'
 }
@@ -20,4 +22,13 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.pogorelovs.kafka_producer.MainKt'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
