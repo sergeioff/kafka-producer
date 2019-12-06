@@ -2,7 +2,7 @@ package com.pogorelovs.kafka_producer
 
 import java.io.File
 import java.nio.file.Files
-import java.nio.file.Path
+import java.nio.file.Paths
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -23,7 +23,7 @@ fun main(args: Array<String>) {
 
     val producer = MyKafkaProducer(broker, topic)
 
-    Files.lines(Path.of(filePath)).forEach {
+    Files.lines(Paths.get(filePath)).forEach {
         producer.produce(it)
     }
 }
