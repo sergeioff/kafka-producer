@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -11,7 +12,6 @@ import java.util.*
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
-
     if (args.size < 3) {
         println("Usage: $0 broker topic pathToInputFile")
         println("Example: $0 localhost:9092 test input")
@@ -36,6 +36,8 @@ fun main(args: Array<String>) {
 class MyKafkaProducer(brokers: String, private val topic: String) {
     private val producer = createProducer(brokers)
 
+    private val logger = LoggerFactory.getLogger(MyKafkaProducer::class.java)
+
     private fun createProducer(brokers: String): Producer<String, String> {
         val props = Properties()
         props["bootstrap.servers"] = brokers
@@ -46,5 +48,6 @@ class MyKafkaProducer(brokers: String, private val topic: String) {
 
     fun produce(msg: String) {
         producer.send(ProducerRecord(topic, msg))
+        logger.info("Produced to topic=$topic : msg=$msg")
     }
 }
