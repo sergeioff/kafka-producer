@@ -1,11 +1,13 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.50'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'com.pogorelovs'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'kotlin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -27,11 +29,8 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-jar {
+shadowJar {
     manifest {
         attributes 'Main-Class': 'com.pogorelovs.kafka_producer.MainKt'
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
