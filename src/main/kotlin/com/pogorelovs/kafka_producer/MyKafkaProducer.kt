@@ -48,7 +48,11 @@ class MyKafkaProducer(brokers: String, private val topic: String) {
     }
 
     fun produce(msg: String) {
-        producer.send(ProducerRecord(topic, msg))
-        logger.info("Produced to topic=$topic : msg=$msg")
-    }
+        val status = producer.send(ProducerRecord(topic, msg))
+
+        while (!status.isDone) {
+            Thread.sleep(10)
+        }
+
+        logger.info("Produced to topic=$topic : msg=$msg")    }
 }
