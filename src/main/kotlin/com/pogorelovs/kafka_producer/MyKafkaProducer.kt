@@ -43,7 +43,6 @@ class MyKafkaProducer(brokers: String, private val topic: String) {
         props["bootstrap.servers"] = brokers
         props["key.serializer"] = StringSerializer::class.java
         props["value.serializer"] = StringSerializer::class.java
-        props["security.protocol"] = "SSL"
         return KafkaProducer<String, String>(props)
     }
 
